@@ -1,95 +1,43 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import { getData } from './api/api';
+import FilterUI from './components/FilterUI';
+import SelectUI from './components/SelectUI';
+import styles from './page.module.css';
+import { AppBar, Container, Grid, Pagination, Toolbar } from '@mui/material';
+import { GetStaticProps } from 'next';
 
-export default function Home() {
+export default async function Home() {
+  const cats = await getData(4);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <>
+      <AppBar position="fixed">
+        <Toolbar>Cats photo</Toolbar>
+      </AppBar>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Container maxWidth="lg" style={{ paddingTop: '80px' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item md={10}>
+            <FilterUI />
+          </Grid>
+          <Grid item md={2}>
+            <SelectUI />
+          </Grid>
+        </Grid>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+        <Grid container spacing={2}>
+          {cats.map((cat) => (
+            <Grid item key={cat.id} sm={3}>
+              <div
+                className="cats_item"
+                style={{ backgroundImage: `url(${cat.url})` }}
+              ></div>
+            </Grid>
+          ))}
+        </Grid>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+        <Grid container m={2} justifyContent="center">
+          <Pagination count={10} color="primary" />
+        </Grid>
+      </Container>
+    </>
+  );
 }

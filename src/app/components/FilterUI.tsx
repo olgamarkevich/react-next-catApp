@@ -1,12 +1,15 @@
 'use client';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
-export default function FilterUI() {
+const FilterUI = () => {
   return (
     <FormGroup row={true}>
-      <FormControlLabel control={<Checkbox />} label="Label" />
-      <FormControlLabel control={<Checkbox />} label="Required" />
-      <FormControlLabel control={<Checkbox />} label="Disabled" />
+      <FormControlLabel control={<Checkbox />} label="Beng" />
+      <FormControlLabel control={<Checkbox />} label="Abys" />
+      <FormControlLabel control={<Checkbox />} label="Pers" />
+      <FormControlLabel control={<Checkbox />} label="Tonk" />
     </FormGroup>
   );
-}
+};
+
+export default FilterUI;

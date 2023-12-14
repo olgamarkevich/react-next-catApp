@@ -7,12 +7,15 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import { getData } from '../api/api';
 
-export default function SelectUI() {
+const SelectUI = () => {
   const [sort, setSort] = useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = async (event: SelectChangeEvent) => {
     setSort(event.target.value);
+    const cats = await getData(10, event.target.value);
+    console.log(cats);
   };
 
   return (
@@ -25,4 +28,6 @@ export default function SelectUI() {
       </Select>
     </FormControl>
   );
-}
+};
+
+export default SelectUI;

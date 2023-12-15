@@ -2,13 +2,14 @@
 import { Breed } from '@/model';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 interface Props {
   data: Breed[];
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const FilterUI: FC<Props> = ({ data }) => {
+const FilterUI: FC<Props> = ({ data, setIsLoading }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -29,9 +30,8 @@ const FilterUI: FC<Props> = ({ data }) => {
     if (filterCheckbox.length === 0) {
       params.delete('breed_ids');
     }
-
+    setIsLoading(true);
     replace(`${pathname}?${params.toString()}`);
-    console.log(filterCheckbox);
   };
 
   return (

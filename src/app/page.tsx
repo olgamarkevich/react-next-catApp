@@ -5,6 +5,8 @@ import PhotoList from '@/components/PhotoList';
 
 import { Container } from '@mui/material';
 import FilterSortUI from '../components/FilterSortUI';
+import { useState } from 'react';
+import App from '@/components/App';
 
 export default async function Home({
   searchParams,
@@ -15,16 +17,5 @@ export default async function Home({
   const breedsFetch = fetchBreeds();
 
   const [cats, breeds] = await Promise.all([catsFetch, breedsFetch]);
-
-  console.log(cats);
-
-  return (
-    <>
-      <Container maxWidth="lg" style={{ paddingTop: '80px' }}>
-        <FilterSortUI data={breeds} />
-        <PhotoList cats={cats} />
-        <PaginationUi itemsCount={cats.length} />
-      </Container>
-    </>
-  );
+  return <App cats={cats} breeds={breeds} />;
 }

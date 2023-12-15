@@ -9,8 +9,13 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Dispatch, FC, SetStateAction } from 'react';
 
-const SelectUI = () => {
+interface Props {
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const SelectUI: FC<Props> = ({ setIsLoading }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -18,6 +23,7 @@ const SelectUI = () => {
   const handleSortPress = (e: string) => {
     const params = new URLSearchParams(searchParams);
     params.set('order', e);
+    setIsLoading(true);
     replace(`${pathname}?${params.toString()}`);
   };
 

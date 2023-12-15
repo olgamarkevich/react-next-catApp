@@ -10,6 +10,7 @@ import {
   ImageListItemBar,
 } from '@mui/material';
 import { FC } from 'react';
+import Loader from './Loader';
 
 interface Props {
   cats: Cat[];

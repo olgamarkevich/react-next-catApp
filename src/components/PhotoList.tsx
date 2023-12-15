@@ -20,7 +20,9 @@ const PhotoList: FC<Props> = ({ cats }) => {
   useEffect(() => {
     try {
       const data = JSON.parse(localStorage.getItem('favorites') as string);
-      setFavourtites(data);
+      if (data?.length) {
+        setFavourtites(data);
+      }
       setFavourtitesLoaded(true);
     } catch (err) {
       console.log(err);
@@ -57,7 +59,7 @@ const PhotoList: FC<Props> = ({ cats }) => {
               icon={<FavoriteBorder />}
               onChange={(e) => handleChange(e.target.checked, cat.id)}
               checkedIcon={<Favorite color="info" />}
-              checked={favorites?.includes(cat.id)}
+              checked={favorites.includes(cat.id)}
             />
           </div>
         </Grid>

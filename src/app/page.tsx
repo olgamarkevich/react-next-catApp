@@ -2,6 +2,8 @@ import type { CatsQuery } from '@/model';
 import { fetchBreeds, fetchCats } from '@/api';
 import App from '@/components/App';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home({
   searchParams,
 }: {

@@ -1,28 +1,29 @@
-import { getData } from './api/api';
-import FilterUI from './components/FilterUI';
-import PaginationUi from './components/PaginationUi';
-import PhotoList from './components/PhotoList';
-import SelectUI from './components/FilterSortUI';
-import styles from './page.module.css';
-import { AppBar, Container, Grid, Pagination, Toolbar } from '@mui/material';
-import FilterSortUI from './components/FilterSortUI';
+import type { CatsQuery } from '@/model';
+import { fetchBreeds, fetchCats } from '@/api';
+import PaginationUi from '../components/PaginationUi';
+import PhotoList from '@/components/PhotoList';
 
-interface Cat {
-  breeds: [];
-  id: string;
-  url: string;
-  width: number;
-  height: number;
-}
+import { Container } from '@mui/material';
+import FilterSortUI from '../components/FilterSortUI';
 
-export default async function Home() {
-  const cats = await getData(12, 'rand');
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: CatsQuery;
+}) {
+  const catsFetch = fetchCats(searchParams);
+  const breedsFetch = fetchBreeds();
+
+  const [cats, breeds] = await Promise.all([catsFetch, breedsFetch]);
+
+  console.log(cats);
+
   return (
     <>
       <Container maxWidth="lg" style={{ paddingTop: '80px' }}>
-        <FilterSortUI />
+        <FilterSortUI data={breeds} />
         <PhotoList cats={cats} />
-        <PaginationUi />
+        <PaginationUi itemsCount={cats.length} />
       </Container>
     </>
   );

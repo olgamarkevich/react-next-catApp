@@ -57,7 +57,7 @@ const PhotoList: FC<Props> = ({ cats }) => {
               icon={<FavoriteBorder />}
               onChange={(e) => handleChange(e.target.checked, cat.id)}
               checkedIcon={<Favorite color="info" />}
-              checked={favorites.includes(cat.id)}
+              checked={favorites?.includes(cat.id)}
             />
           </div>
         </Grid>

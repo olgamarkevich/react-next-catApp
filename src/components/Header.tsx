@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { AppBar, Grid, Toolbar, Typography } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
-import Link from 'next/link';
 
 const Header = () => {
   return (
@@ -14,9 +14,6 @@ const Header = () => {
               <PetsIcon />
               <Typography marginLeft="5px">Cats photo</Typography>
             </Grid>
-          </Link>
-          <Link href="favorites" className="link">
-            My Favorites
           </Link>
         </Grid>
       </Toolbar>

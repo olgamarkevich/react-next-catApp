@@ -8,9 +8,7 @@ export const fetchCats = async (query: CatsQuery) => {
     has_breeds: '1',
     ...query,
   });
-  console.log(
-    'https://api.thecatapi.com/v1/images/search?' + searchParams.toString()
-  );
+
   try {
     const res = await fetch(
       'https://api.thecatapi.com/v1/images/search?' + searchParams.toString()

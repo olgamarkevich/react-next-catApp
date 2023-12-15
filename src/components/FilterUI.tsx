@@ -1,8 +1,10 @@
 'use client';
-import { Breed } from '@/model';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { useEffect, useState } from 'react';
+import type { FC, Dispatch, SetStateAction } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+
+import type { Breed } from '@/model';
 
 interface Props {
   data: Breed[];
@@ -14,25 +16,28 @@ const FilterUI: FC<Props> = ({ data, setIsLoading }) => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [filterCheckbox, setFilterCheckbox] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string[]>([]);
 
   const handleSelectPress = (breedId: string, checked: boolean) => {
-    const params = new URLSearchParams(searchParams);
     if (checked) {
-      setFilterCheckbox([...filterCheckbox, breedId]);
-      params.set('breed_ids', filterCheckbox.join(','));
+      setFilter((prev) => [...prev, breedId]);
     } else {
-      let filterCheckboxV2 = filterCheckbox.filter((item) => item !== breedId);
-      setFilterCheckbox(filterCheckboxV2);
-      params.set('breed_ids', filterCheckbox.join(','));
+      setFilter((prev) => prev.filter((item) => item !== breedId));
     }
+  };
 
-    if (filterCheckbox.length === 0) {
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (filter.length) {
+      params.set('breed_ids', filter.join(','));
+    } else {
       params.delete('breed_ids');
     }
+
     setIsLoading(true);
     replace(`${pathname}?${params.toString()}`);
-  };
+  }, [filter, pathname, replace, searchParams, setIsLoading]);
 
   return (
     <FormGroup row={true}>

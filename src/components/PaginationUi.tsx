@@ -1,13 +1,16 @@
 'use client';
-import { Button, Grid } from '@mui/material';
+
+import { useEffect } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import { Button, Grid } from '@mui/material';
 
 interface Props {
   itemsCount: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const PaginationUi: FC<Props> = ({ itemsCount }) => {
+const PaginationUi: FC<Props> = ({ itemsCount, setIsLoading }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -33,8 +36,18 @@ const PaginationUi: FC<Props> = ({ itemsCount }) => {
       params.delete('page');
     }
 
+    setIsLoading(true);
     replace(`${pathname}?${params.toString()}`);
   };
+
+  useEffect(() => {
+    if (!itemsCount) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('page');
+      setIsLoading(true);
+      replace(`${pathname}?${params.toString()}`);
+    }
+  }, [itemsCount, pathname, replace, searchParams, setIsLoading]);
 
   return (
     <Grid container justifyContent="center" m={3} gap={3}>

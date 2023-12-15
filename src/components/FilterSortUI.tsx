@@ -1,11 +1,12 @@
 'use client';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
-import { Grid, SelectChangeEvent } from '@mui/material';
+
+import type { FC, Dispatch, SetStateAction } from 'react';
+import { Grid } from '@mui/material';
+
+import type { Breed } from '@/model';
 
 import FilterUI from './FilterUI';
 import SelectUI from './SelectUI';
-import { Breed } from '@/model';
-import Loader from './Loader';
 
 interface Props {
   data: Breed[];

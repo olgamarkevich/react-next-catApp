@@ -1,5 +1,5 @@
+import type { FC } from 'react';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { FC } from 'react';
 
 interface Props {
   open: boolean;

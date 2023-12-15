@@ -1,15 +1,8 @@
 'use client';
 
-import { CatsQuery } from '@/model';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 interface Props {
   setIsLoading: Dispatch<SetStateAction<boolean>>;

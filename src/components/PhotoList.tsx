@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Checkbox, Grid } from '@mui/material';
@@ -13,24 +14,37 @@ interface Props {
 }
 
 const PhotoList: FC<Props> = ({ cats }) => {
-  let favorites: string[];
+  const [favorites, setFavourtites] = useState<string[]>([]);
+  const [favouritesLoaded, setFavourtitesLoaded] = useState(false);
 
-  if (JSON.parse(localStorage.getItem('favorites') as string) !== null) {
-    favorites = JSON.parse(localStorage.getItem('favorites') as string);
-  } else favorites = [];
-
-  console.log(favorites);
+  useEffect(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem('favorites') as string);
+      setFavourtites(data);
+      setFavourtitesLoaded(true);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const handleChange = (checked: boolean, id: string) => {
     if (checked) {
-      favorites = [...favorites, id];
+      setFavourtites((prev) => [...prev, id]);
     } else {
-      favorites = favorites.filter((item) => item !== id);
-      console.log(checked);
+      setFavourtites((prev) => prev.filter((item) => item !== id));
     }
-
-    localStorage.setItem('favorites', JSON.stringify(favorites));
   };
+
+  useEffect(() => {
+    if (favouritesLoaded) {
+      try {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [favorites, favouritesLoaded]);
+
   return (
     <Grid container spacing={2}>
       {cats.map((cat) => (
